@@ -1,0 +1,361 @@
+/**** Three Breakpoints, mobile first ****
+
+Mobile (no suits on cards, deck above)
+Small ( Suits, deck still above )
+Large ( Deck to side )
+*/
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: green;
+    overflow: hidden;
+}
+
+.App {
+    text-align: center;
+}
+
+.pile {
+    background: inherit;
+    float: left;
+    text-align: center;
+    width: 25%;
+}
+
+.top-deck {
+    float: none;
+}
+.side-deck {
+    display: none;
+}
+
+.card-wrapper {
+    margin-top: -145px;
+    transition: all 0.7s ease;
+}
+.card-wrapper:first-of-type {
+    margin-top: 0;
+}
+.card-wrapper.stacked {
+    margin-top: -200px;
+}
+
+.card {
+    background: white;
+    border: 3px solid #333;
+    border-radius: 14px;
+    display: inline-block;
+    font-size: 50px;
+    height: 200px;
+    position: relative;
+    max-width: 200px;
+    user-select: none;
+    width: 80%;
+}
+
+.suits {
+}
+
+.suits div {
+    display: none;
+    height: 100px;
+    line-height: 100px;
+    margin-left: -50px;
+    margin-top: -50px;
+    position: absolute;
+    text-align: center;
+    width: 100px;
+}
+
+.suits .left {
+    left: 27%;
+}
+
+.suits .right {
+    left: 73%;
+}
+
+.suits .middle {
+    left: 50%;
+}
+
+.suits .center {
+    top: 50%;
+}
+
+.suits .upper {
+    top: 20%;
+}
+
+.suits .upper-center {
+    top: 40%;
+}
+
+.suits .lower-center {
+    top: 60%;
+    transform: rotate(180deg);
+}
+
+.suits .lower {
+    top: 80%;
+    transform: rotate(180deg);
+}
+
+.suits .middle.upper-center {
+    top: 30%;
+}
+
+.suits .middle.lower-center {
+    top: 70%;
+    transform: rotate(180deg);
+}
+
+.upper-suit {
+    font-size: 26px;
+    position: absolute;
+    left: 2%;
+    top: 2%;
+}
+
+.lower-suit {
+    bottom: 2%;
+    font-size: 26px;
+    right: 2%;
+    position: absolute;
+    transform: rotate(180deg);
+}
+
+.upper-suit .suit, .lower-suit .suit {
+    margin-top: -10px;
+}
+.card .big-val {
+    font-size: 80px;
+    font-weight: bold;
+    height: 100px;
+    left: 50%;
+    line-height: 100px;
+    margin-left: -50px;
+    margin-top: -50px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100px;
+}
+
+
+.empty-deck { opacity: 0.2; }
+
+.full-deck {
+    background-color: hsl(34, 53%, 82%);
+    background-image: repeating-linear-gradient(45deg, transparent 5px, hsla(197, 62%, 11%, 0.5) 5px, hsla(197, 62%, 11%, 0.5) 10px,
+    hsla(5, 53%, 63%, 0) 10px, hsla(5, 53%, 63%, 0) 35px, hsla(5, 53%, 63%, 0.5) 35px, hsla(5, 53%, 63%, 0.5) 40px,
+    hsla(197, 62%, 11%, 0.5) 40px, hsla(197, 62%, 11%, 0.5) 50px, hsla(197, 62%, 11%, 0) 50px, hsla(197, 62%, 11%, 0) 60px,
+    hsla(5, 53%, 63%, 0.5) 60px, hsla(5, 53%, 63%, 0.5) 70px, hsla(35, 91%, 65%, 0.5) 70px, hsla(35, 91%, 65%, 0.5) 80px,
+    hsla(35, 91%, 65%, 0) 80px, hsla(35, 91%, 65%, 0) 90px, hsla(5, 53%, 63%, 0.5) 90px, hsla(5, 53%, 63%, 0.5) 110px,
+    hsla(5, 53%, 63%, 0) 110px, hsla(5, 53%, 63%, 0) 120px, hsla(197, 62%, 11%, 0.5) 120px, hsla(197, 62%, 11%, 0.5) 140px
+    ),
+    repeating-linear-gradient(135deg, transparent 5px, hsla(197, 62%, 11%, 0.5) 5px, hsla(197, 62%, 11%, 0.5) 10px,
+            hsla(5, 53%, 63%, 0) 10px, hsla(5, 53%, 63%, 0) 35px, hsla(5, 53%, 63%, 0.5) 35px, hsla(5, 53%, 63%, 0.5) 40px,
+            hsla(197, 62%, 11%, 0.5) 40px, hsla(197, 62%, 11%, 0.5) 50px, hsla(197, 62%, 11%, 0) 50px, hsla(197, 62%, 11%, 0) 60px,
+            hsla(5, 53%, 63%, 0.5) 60px, hsla(5, 53%, 63%, 0.5) 70px, hsla(35, 91%, 65%, 0.5) 70px, hsla(35, 91%, 65%, 0.5) 80px,
+            hsla(35, 91%, 65%, 0) 80px, hsla(35, 91%, 65%, 0) 90px, hsla(5, 53%, 63%, 0.5) 90px, hsla(5, 53%, 63%, 0.5) 110px,
+            hsla(5, 53%, 63%, 0) 110px, hsla(5, 53%, 63%, 0) 140px, hsla(197, 62%, 11%, 0.5) 140px, hsla(197, 62%, 11%, 0.5) 160px
+    );
+}
+
+.difficulty {
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: black;
+    color: white;
+    padding: 10px;
+}
+/* Modal */
+
+.hide-modal {
+    height: 0%;
+    opacity: 0;
+}
+
+.show-modal {
+    opacity: 1;
+    height:100%;
+}
+
+#modal {
+    background: rgba( 0, 0, 0, 0.8 );
+    position: fixed;
+    left: 0;
+    top: 0;
+    text-align:center;
+    transition: all 0.7s ease;
+    width:100%;
+    z-index: 1000;
+}
+
+.show-modal #modal-content {
+    margin-top: 40px;
+}
+
+#modal-content {
+    background: white;
+    border-radius: 20px;
+    border: 5px solid black;
+    left: 50%;
+    position: fixed;
+    margin-left: -300px;
+    margin-top: -400px;
+    overflow: hidden;
+    transition: all 0.7s ease;
+    width: 600px;
+}
+
+#modal-content h1 {
+    border-bottom: 5px solid black;
+    background: #5aa8d5;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#modal-content .modal-stats {
+    line-height: 1.4;
+    margin: 20px;
+}
+
+.emphasis {
+    font-weight: bold;
+    font-size: 1.3em;
+}
+
+.button {
+    display: inline-block;
+    padding: 1.05rem 2.75rem;
+    color: #28aadc;
+    background-color: #fff;
+    font-size: 1.2rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    border-radius: 12rem;
+    border: .2rem solid #28aadc;
+    margin-bottom: 30px;
+}
+
+/* Above "mobile" */
+@media (min-width: 800px) {
+
+    /* Let's make the cards a little taller */
+    .card-wrapper {
+        margin-top: -185px;
+    }
+
+    .card-wrapper.stacked {
+        margin-top: -250px;
+    }
+
+    .card {
+        height: 250px;
+    }
+
+    /* TWOS */
+    .card-2 .middle.upper { display: block; }
+    .card-2 .middle.lower { display: block; }
+
+    /* THREES */
+    .card-3 .middle.upper { display: block; }
+    .card-3 .middle.center { display: block; }
+    .card-3 .middle.lower { display: block; }
+
+    /* FOURS */
+    .card-4 .left.upper { display: block; }
+    .card-4 .left.lower { display: block; }
+    .card-4 .right.upper { display: block; }
+    .card-4 .right.lower { display: block; }
+
+    /* FIVES */
+    .card-5 .left.upper { display: block; }
+    .card-5 .left.lower { display: block; }
+    .card-5 .right.upper { display: block; }
+    .card-5 .right.lower { display: block; }
+    .card-5 .middle.center { display: block; }
+
+    /* SIXES */
+    .card-6 .left.upper { display: block; }
+    .card-6 .left.center { display: block; }
+    .card-6 .left.lower { display: block; }
+    .card-6 .right.upper { display: block; }
+    .card-6 .right.center { display: block; }
+    .card-6 .right.lower { display: block; }
+
+    /* SEVENS */
+    .card-7 .left.upper { display: block; }
+    .card-7 .left.center { display: block; }
+    .card-7 .left.lower { display: block; }
+    .card-7 .right.upper { display: block; }
+    .card-7 .right.center { display: block; }
+    .card-7 .right.lower { display: block; }
+    .card-7 .middle.upper-center { display: block; }
+
+    /* EIGHTS */
+    .card-8 .left.upper { display: block; }
+    .card-8 .left.upper-center { display: block; }
+    .card-8 .left.lower-center { display: block; }
+    .card-8 .left.lower { display: block; }
+    .card-8 .right.upper { display: block; }
+    .card-8 .right.upper-center { display: block; }
+    .card-8 .right.lower-center { display: block; }
+    .card-8 .right.lower { display: block; }
+
+    /* NINES */
+    .card-9 .left.upper { display: block; }
+    .card-9 .left.upper-center { display: block; }
+    .card-9 .left.lower-center { display: block; }
+    .card-9 .left.lower { display: block; }
+    .card-9 .right.upper { display: block; }
+    .card-9 .right.upper-center { display: block; }
+    .card-9 .right.lower-center { display: block; }
+    .card-9 .right.lower { display: block; }
+    .card-9 .middle.center { display: block; }
+
+    /* TENS */
+    .card-10 .left.upper { display: block; }
+    .card-10 .left.upper-center { display: block; }
+    .card-10 .left.lower-center { display: block; }
+    .card-10 .left.lower { display: block; }
+    .card-10 .right.upper { display: block; }
+    .card-10 .right.upper-center { display: block; }
+    .card-10 .right.lower-center { display: block; }
+    .card-10 .right.lower { display: block; }
+    .card-10 .middle.upper-center { display: block; }
+    .card-10 .middle.lower-center { display: block; }
+
+    .card .big-val {
+        display: none;
+    }
+    .card-A .big-val,
+    .card-J .big-val,
+    .card-Q .big-val,
+    .card-K .big-val,
+    .full-deck .big-val,
+    .empty-deck .big-val
+    { display: block; }
+}
+
+@media (min-width: 1100px) {
+    .App {
+        margin-top: 40px;
+    }
+    .pile {
+        width: 20%;
+    }
+
+    .side-deck {
+        display: block;
+    }
+
+    .top-deck {
+        display: none;
+    }
+
+}
