@@ -13,11 +13,6 @@ app.get('/t', ( req, res ) => {
 	res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
-app.get('/t/basketball-over-unders', ( req, res ) => {
-});
-
-// app.post('/t/api/basketball', basketball );
-
 // start that server up.
 const port = process.env.port || 8081;
 app.listen( port, function() {

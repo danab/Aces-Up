@@ -2,6 +2,9 @@ import React, {
 	Component,
 	PropTypes as T,
 } from 'react';
+import { connect } from 'react-redux';
+
+import { attemptRemoveCard } from './actions/actions';
 
 const suits = [ '♣', '♦', '♠','♥' ];
 const nums = [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A' ]
@@ -14,6 +17,13 @@ const getCardObj = ( idx ) => {
 	};
 }
 class Card extends Component {
+
+	attemptRemoveCard() {
+		if ( this.props.last ) {
+			this.props.attemptRemoveCard( this.props.pileIdx );
+		}
+	}
+
 	render() {
 		//
 		const cardObj = getCardObj( this.props.idx )
@@ -22,11 +32,13 @@ class Card extends Component {
 		let wrapperClassname = 'card-wrapper';
 		if ( this.props.stacked ) {
 			wrapperClassname += ' stacked';
+		} else if ( this.props.last ) {
+			wrapperClassname += ' last-card';
 		}
 
 		return (
-			<div className={ wrapperClassname }>
-				<div style={{ color: ( suit % 2 ) ? 'red' : 'black' }} className={ classname }>
+			<div className={ wrapperClassname } onClick={ this.attemptRemoveCard.bind(this) } >
+				<a style={{ color: ( suit % 2 ) ? 'red' : 'black' }} className={ classname }>
 					<div className="upper-suit">
 						<div className="num"> { cardObj.num } </div>
 						<div className="suit"> { cardObj.suit } </div>
@@ -53,7 +65,7 @@ class Card extends Component {
 						<div className="middle lower">{ cardObj.suit }</div>
 					</div>
 					<div className="big-val"> { cardObj.num } </div>
-				</div>
+				</a>
 			</div>
 		);
 	}
@@ -62,6 +74,7 @@ class Card extends Component {
 Card.propTypes = {
 	idx: T.number.isRequired
 };
-Card.defaultProps = {};
+
+Card = connect( null, { attemptRemoveCard } )( Card );
 
 export default Card;
