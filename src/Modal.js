@@ -7,6 +7,18 @@ import { getTotalCards } from './utils/utils';
 
 class Modal extends Component {
 
+	getPercentile( cardsRemaining, difficulty ) {
+		const games = this.props.stats.get( difficulty ).get( 'games' );
+		const dist = this.props.stats.get( difficulty ).get( 'dist' );
+
+		const worseGames = dist.reduce( ( games, curr, i ) => {
+			return ( i > cardsRemaining ) ? games + curr : games;
+		}, 0 )
+
+		const percentile = worseGames / games;
+		return Math.round( percentile * 100 );
+	}
+
 	getAverage( difficulty) {
 		const sum = this.props.stats.get( difficulty ).get( 'dist' )
 				.reduce( ( sum, current, idx ) => sum + (current || 0) * idx, 0 );
@@ -34,9 +46,11 @@ class Modal extends Component {
 		const average = this.getAverage( currentDifficulty );
 		const bestScore = this.getBestScore( currentDifficulty );
 		const cardsRemaining = getTotalCards( this.props.piles );
+		const percentile = this.getPercentile( cardsRemaining || 10, currentDifficulty );
 
 		const wins = this.props.stats.get( currentDifficulty ).get( 'wins' );
 		const times = wins === 1 ? 'time' : 'times';
+
 		return (
 			<div id="modal" className={ ( this.props.gameOver ) ? 'show-modal' : 'hide-modal' } >
 				<div id="modal-content">
@@ -46,6 +60,9 @@ class Modal extends Component {
 							<h1> { cardsRemaining === 4 ? 'Congratulations! You Win!' : 'Game Over!' } </h1>
 							<h2 style={{ marginTop: '20px' }}> { cardsRemaining } cards remaining.</h2>
 							<div className="modal-stats">
+								<p>
+									That's better than  <span className="emphasis">{ percentile }% </span> of your games!
+								</p>
 								<p>
 									You've played&nbsp;
 									<span className="emphasis">
@@ -80,9 +97,11 @@ class Modal extends Component {
 									You average <span className="emphasis">{ average } </span> cards remaining.
 								</p>
 							</div>
-							<a className="button" onClick={ this.props.startNewGame.bind( this, 'easy') } > New Easy Game </a>
-							&nbsp;
-							<a className="button" onClick={ this.props.startNewGame.bind( this, 'hard') } > New Hard Game </a>
+							<div className="modal-buttons">
+								<a className="button" onClick={ this.props.startNewGame.bind( this, 'easy') } > New Easy Game </a>
+								&nbsp;
+								<a className="button" onClick={ this.props.startNewGame.bind( this, 'hard') } > New Hard Game </a>
+							</div>
 						</div>
 					: null }
 				</div>

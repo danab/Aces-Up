@@ -232,6 +232,9 @@ body {
     font-size: 1.3em;
 }
 
+.modal-buttons {
+    margin-bottom: 20px;
+}
 .button {
     display: inline-block;
     padding: 1.05rem 2.75rem;
@@ -242,7 +245,7 @@ body {
     text-transform: uppercase;
     border-radius: 12rem;
     border: .2rem solid #28aadc;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 }
 
 /* Above "mobile" */
