@@ -1,15 +1,16 @@
 import { fromJS, List, Map } from 'immutable';
 
-export const shuffledDeck = () => {
+const shuffle = ( size ) => {
+
 	let deck = [];
-	for( var i = 0; i < 52; i++ ) {
+	for( var i = 0; i < size; i++ ) {
 		deck.push( i );
 	}
 
 	// fischer-yates...clever (the second algorithm would have been fine performance-wise...but why not
 	// https://bost.ocks.org/mike/shuffle/
 
-	var m = 52, t, j;
+	var m = size, t, j;
 
 	// While there remain elements to shuffle…
 	while (m) {
@@ -23,7 +24,62 @@ export const shuffledDeck = () => {
 		deck[j] = t;
 	}
 
+	return deck;
+}
+
+const newPerm = ( perm ) => {
+	const potentialPerm = shuffle( 4 );
+
+	// needlessly terse, but just check if any elements match up
+	if ( perm.reduce( ( sum, curr, i ) => sum += ( curr === potentialPerm[i] ) ? 1 : 0, 0 ) ) {
+		return newPerm( perm );
+	} else {
+		return potentialPerm;
+	}
+}
+
+const foolsDeck = () => {
+	// Don't include aces, they'll be last!
+	let suits = [
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+	];
+
+	let perm = [ 0, 1, 2, 3 ];
+
+	// empty
+	let deck = [];
+
+	while( suits[0].length ) {
+		const len = suits[0].length;
+		perm.forEach( idx => {
+			let card = suits[ idx ].splice( Math.floor( Math.random() * len ), 1 )[0];
+			deck.push( card + idx * 13 );
+		});
+		perm = newPerm( perm );
+	}
+
+	// add the aces
+	perm.forEach( idx => {
+		deck.push( 12 + idx * 13 );
+	});
+
 	return fromJS( deck );
+}
+
+
+export const shuffledDeck = () => {
+	const now = new Date();
+
+	if ( now.getMonth() === 3 && now.getDate() === 1 ) {
+		const deck = foolsDeck();
+		return fromJS( deck );
+	} else {
+		const deck = shuffle( 52 );
+		return fromJS( deck );
+	}
 }
 
 export const getSuit = ( card ) => Math.floor( card / 13 );
