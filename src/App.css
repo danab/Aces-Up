@@ -11,6 +11,11 @@ body {
     background: green;
 }
 
+#root {
+    margin: auto;
+    max-width: 1200px;
+}
+
 .App {
     margin-top: 10px;
     text-align: center;
@@ -51,11 +56,11 @@ body {
     border-radius: 14px;
     display: inline-block;
     font-size: 50px;
-    height: 200px;
+    height: 240px;
     position: relative;
-    max-width: 200px;
+    max-width: 180px;
     user-select: none;
-    width: 80%;
+    width: 95%;
 }
 
 .suits {
@@ -134,7 +139,7 @@ body {
     margin-top: -10px;
 }
 .card .big-val {
-    font-size: 80px;
+    font-size: 65px;
     font-weight: bold;
     height: 100px;
     left: 50%;
@@ -183,6 +188,10 @@ body {
     opacity: 0;
 }
 
+.hide-modal #modal-content {
+    height: 0%;
+}
+
 .show-modal {
     opacity: 1;
     height:100%;
@@ -199,20 +208,17 @@ body {
     z-index: 1000;
 }
 
-.show-modal #modal-content {
-    margin-top: 40px;
-}
-
 #modal-content {
     background: white;
     border-radius: 20px;
     border: 5px solid black;
-    left: 50%;
+    /*left: 50%;*/
     position: fixed;
-    margin-left: -300px;
-    margin-top: -400px;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /*margin-left: -300px;*/
+    /*margin-top: -400px;*/
     transition: all 0.7s ease;
-    width: 600px;
+    /*width: 600px;*/
 }
 
 #modal-content h1 {

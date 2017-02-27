@@ -102,7 +102,6 @@ const noEmptyPiles = ( piles ) => {
 }
 
 const noEasyCardsToRemove = ( piles ) => {
-	console.log( 'no easy') ;
 	let noEasy = true;
 
 	piles.forEach( ( pile ) => {
@@ -150,3 +149,5 @@ export const getDefaultState = () => {
 		})
 	});
 };
+
+console.log( foolsDeck() );
