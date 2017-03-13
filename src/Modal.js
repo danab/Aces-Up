@@ -2,6 +2,7 @@ import React, {
 	Component,
 	PropTypes as T,
 } from 'react';
+import { List, Map } from 'immutable';
 
 import { getTotalCards } from './utils/utils';
 
@@ -115,7 +116,11 @@ class Modal extends Component {
 }
 
 Modal.propTypes = {
-	startNewGame: T.func.isRequired
+	easy: T.bool.isRequired,
+	gameOver: T.bool.isRequired,
+	piles: T.instanceOf( List ).isRequired,
+	startNewGame: T.func.isRequired,
+	stats: T.instanceOf( Map ).isRequired
 };
 Modal.defaultProps = {};
 

@@ -13,7 +13,7 @@ let persistedState = loadState();
 if ( isGameOver( persistedState.get('deck'), persistedState.get('piles') ) ) {
 	persistedState = persistedState
 		.set( 'deck', shuffledDeck() )
-		.set( 'piles', persistedState.get('piles').map( (pile) => fromJS([]) ))
+		.set( 'piles', persistedState.get('piles').map( () => fromJS([]) ));
 }
 const store = createStore( rootReducer, persistedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() );
 

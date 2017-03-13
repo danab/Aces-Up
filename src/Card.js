@@ -15,7 +15,7 @@ const getCardObj = ( idx ) => {
 		suit: suits[Math.floor( idx / 13 )],
 		num: nums[idx % 13]
 	};
-}
+};
 class Card extends Component {
 
 	attemptRemoveCard() {
@@ -64,9 +64,12 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-	idx: T.number.isRequired
+	attemptRemoveCard: T.func.isRequired,
+	idx: T.number.isRequired,
+	last: T.bool,
+	pileIdx: T.number.isRequired
 };
 
-Card = connect( null, { attemptRemoveCard } )( Card );
+const ConnectedCard = connect( null, { attemptRemoveCard } )( Card );
 
-export default Card;
+export default ConnectedCard;

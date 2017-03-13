@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes as T } from 'react';
 import { connect } from 'react-redux';
+import { List } from 'immutable';
 
 import Pile from './Pile';
 import Deck from './Deck';
@@ -36,6 +37,12 @@ class App extends Component {
 		);
 	}
 }
+
+App.propTypes = {
+	deck: T.instanceOf( List ).isRequired,
+	easy: T.bool.isRequired,
+	piles: T.instanceOf( List ).isRequired
+};
 
 const mapStateToProps = ( state ) => {
 	const deck = state.get('deck');

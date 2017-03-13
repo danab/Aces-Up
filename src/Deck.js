@@ -39,9 +39,11 @@ class Deck extends Component {
 }
 
 Deck.propTypes = {
-	deck: T.instanceOf( List )
+	dealCards: T.func.isRequired,
+	deck: T.instanceOf( List ).isRequired,
+	side: T.bool
 };
 
-Deck = connect( null, { dealCards } )( Deck );
+const ConnectedDeck = connect( null, { dealCards } )( Deck );
 
-export default Deck;
+export default ConnectedDeck;

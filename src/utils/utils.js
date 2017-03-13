@@ -25,7 +25,7 @@ const shuffle = ( size ) => {
 	}
 
 	return deck;
-}
+};
 
 const newPerm = ( perm ) => {
 	const potentialPerm = shuffle( 4 );
@@ -36,7 +36,7 @@ const newPerm = ( perm ) => {
 	} else {
 		return potentialPerm;
 	}
-}
+};
 
 const foolsDeck = () => {
 	// Don't include aces, they'll be last!
@@ -67,7 +67,7 @@ const foolsDeck = () => {
 	});
 
 	return fromJS( deck );
-}
+};
 
 
 export const shuffledDeck = () => {
@@ -80,7 +80,7 @@ export const shuffledDeck = () => {
 		const deck = shuffle( 52 );
 		return fromJS( deck );
 	}
-}
+};
 
 export const getSuit = ( card ) => Math.floor( card / 13 );
 export const getVal = ( card ) => card % 13;
@@ -98,8 +98,8 @@ export const getTotalCards = ( piles ) => {
 };
 
 const noEmptyPiles = ( piles ) => {
-	return piles.every( pile => pile.size )
-}
+	return piles.every( pile => pile.size );
+};
 
 const noEasyCardsToRemove = ( piles ) => {
 	let noEasy = true;
@@ -116,7 +116,7 @@ const noEasyCardsToRemove = ( piles ) => {
 	});
 
 	return noEasy;
-}
+};
 
 export const isGameOver = ( deck, piles, easy ) => {
 	return deck.size === 0 && noEmptyPiles( piles ) && noSameSuits( piles ) && ( !easy || noEasyCardsToRemove( piles ) );
@@ -149,5 +149,3 @@ export const getDefaultState = () => {
 		})
 	});
 };
-
-console.log( foolsDeck() );

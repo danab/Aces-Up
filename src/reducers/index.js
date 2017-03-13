@@ -29,7 +29,7 @@ const canBeRemoved = ( piles, pile, easy ) => {
 
 		if ( suitA === suit && valA > val ) {
 			removable = true;
-			return false
+			return false;
 		}
 
 	});
@@ -98,7 +98,7 @@ const getNewState = ( state, newDeck, newPiles ) => {
 		.set( 'deck', newDeck )
 		.set( 'piles', newPiles )
 		.set( 'stats', newStats );
-}
+};
 
 // will have to consider how to divide reducers
 const reducer = ( state, action ) => {
@@ -107,61 +107,62 @@ const reducer = ( state, action ) => {
 	const easy = state.get('easy');
 
 	switch ( action.type ) {
-		case 'REMOVE_TOP_CARD':
-			if ( canBeRemoved( state.get('piles'), action.pile, easy ) ) {
-				const newPiles = piles.set( action.pile, piles.get( action.pile ).pop() );
-				return getNewState( state, deck, newPiles );
-			} else if ( canBeMoved( state.get('piles') ) ) {
-				const emptyIdx = getEmptyPile( piles );
+	case 'REMOVE_TOP_CARD':
+		if ( canBeRemoved( state.get('piles'), action.pile, easy ) ) {
+			const newPiles = piles.set( action.pile, piles.get( action.pile ).pop() );
+			return getNewState( state, deck, newPiles );
+		} else if ( canBeMoved( state.get('piles') ) ) {
+			const emptyIdx = getEmptyPile( piles );
 
-				const card = piles.get( action.pile ).last();
+			const card = piles.get( action.pile ).last();
 
-				const newPiles = piles
+			const newPiles = piles
 					.set( action.pile, piles.get( action.pile ).pop() )
 					.set( emptyIdx, List( [ card ] ) );
 
-				return getNewState( state, deck, newPiles );
-			} else {
-				return state;
-			}
-		case 'DEAL_CARDS':
-			const emptyPiles = numEmptyPiles( piles );
-			if ( emptyPiles ) {
-				const cards = deck.slice( 0, emptyPiles );
-				let i = 0;
-				const newPiles = piles.map( ( pile ) => {
-					if ( pile.size === 0 ) {
-						return pile.push( cards.get(i++) );
-					} else {
-						return pile;
-					}
-				});
-				const newDeck = deck.slice( emptyPiles );
+			return getNewState( state, deck, newPiles );
+		} else {
+			return state;
+		}
+	case 'DEAL_CARDS': {
+		const emptyPiles = numEmptyPiles(piles);
+		if (emptyPiles) {
+			const cards = deck.slice(0, emptyPiles);
+			let i = 0;
+			const newPiles = piles.map((pile) => {
+				if (pile.size === 0) {
+					return pile.push(cards.get(i++));
+				} else {
+					return pile;
+				}
+			});
+			const newDeck = deck.slice(emptyPiles);
 
-				return getNewState( state, newDeck, newPiles );
-			} else {
-				const cards = deck.slice( 0, 4 );
+			return getNewState(state, newDeck, newPiles);
+		} else {
+			const cards = deck.slice(0, 4);
 
-				const newPiles = piles.map( ( pile, i ) => {
-					if ( cards.get(i) !== undefined ) {
-						return pile.push( cards.get(i) );
-					} else {
-						return pile;
-					}
-				});
-				const newDeck = deck.slice( 4 );
+			const newPiles = piles.map((pile, i) => {
+				if (cards.get(i) !== undefined) {
+					return pile.push(cards.get(i));
+				} else {
+					return pile;
+				}
+			});
+			const newDeck = deck.slice(4);
 
-				return getNewState( state, newDeck, newPiles );
-			}
-		case 'START_NEW_GAME':
-			return state
+			return getNewState(state, newDeck, newPiles);
+		}
+	}
+	case 'START_NEW_GAME':
+		return state
 				.set( 'deck', shuffledDeck() )
-				.set( 'piles', piles.map( (pile) => fromJS([]) ))
+				.set( 'piles', piles.map( () => fromJS([]) ))
 				.set( 'easy', action.difficulty === 'easy' );
 
-		default:
-			return state;
+	default:
+		return state;
 	}
-}
+};
 
 export default reducer;
