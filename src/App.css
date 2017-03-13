@@ -1,10 +1,3 @@
-/**** Three Breakpoints, mobile first ****
-
-Mobile (no suits on cards, deck above)
-Small ( Suits, deck still above )
-Large ( Deck to side )
-*/
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -37,37 +30,62 @@ body {
 }
 
 .card-wrapper {
-    margin-top: -145px;
+    margin: 2.5%;
+    padding-bottom: 140%;
+    position: relative;
     transition: all 0.7s ease;
+    width: 95%;
 }
-.card-wrapper:first-of-type {
-    margin-top: 0;
+
+.card-wrapper + .card-wrapper {
+    margin-top: -105%;
 }
-.card-wrapper.stacked {
-    margin-top: -200px;
-}
-.card-wrapper.last-card {
-    cursor: pointer;
+
+/* Standard, if we don't know if we have a large height */
+.card-wrapper:nth-of-type(n+2):nth-last-of-type(n+4) {
+    margin-top: -125%;
 }
 
 .card {
     background: white;
     border: 3px solid #333;
     border-radius: 14px;
-    display: inline-block;
-    font-size: 50px;
-    height: 240px;
-    position: relative;
-    max-width: 180px;
+    overflow: hidden;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     user-select: none;
-    width: 95%;
 }
 
-.suits {
+.card .upper-suit { text-align: right; }
+.card .lower-suit {
+    display: none;
+}
+
+.card .num, .card .suit {
+    display: inline-block;
+}
+
+.card .big-val {
+    font-size: 16vw;
+    font-weight: bold;
+    height: 100px;
+    left: 50%;
+    line-height: 100px;
+    margin-left: -150px;
+    margin-top: -50px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 300px;
+}
+
+.card .big-suit {
+    top: 60%;
 }
 
 .suits div {
     display: none;
+    font-size: 3.9vw;
     height: 100px;
     line-height: 100px;
     margin-left: -50px;
@@ -78,11 +96,11 @@ body {
 }
 
 .suits .left {
-    left: 27%;
+    left: 31%;
 }
 
 .suits .right {
-    left: 73%;
+    left: 69%;
 }
 
 .suits .middle {
@@ -94,20 +112,20 @@ body {
 }
 
 .suits .upper {
-    top: 20%;
+    top: 15%;
 }
 
 .suits .upper-center {
-    top: 40%;
+    top: 38.33%;
 }
 
 .suits .lower-center {
-    top: 60%;
+    top: 61.67%;
     transform: rotate(180deg);
 }
 
 .suits .lower {
-    top: 80%;
+    top: 85%;
     transform: rotate(180deg);
 }
 
@@ -121,37 +139,23 @@ body {
 }
 
 .upper-suit {
-    font-size: 26px;
+    font-size: 7vw;
     position: absolute;
-    left: 2%;
-    top: 2%;
+    right: 3%;
+    top: 3%;
 }
 
 .lower-suit {
     bottom: 2%;
-    font-size: 26px;
-    right: 2%;
+    font-size: 2.5vw;
     position: absolute;
+    right: 2%;
     transform: rotate(180deg);
 }
 
 .upper-suit .suit, .lower-suit .suit {
     margin-top: -10px;
 }
-.card .big-val {
-    font-size: 65px;
-    font-weight: bold;
-    height: 100px;
-    left: 50%;
-    line-height: 100px;
-    margin-left: -50px;
-    margin-top: -50px;
-    position: absolute;
-    text-align: center;
-    top: 50%;
-    width: 100px;
-}
-
 
 .empty-deck { opacity: 0.2; }
 
@@ -174,15 +178,14 @@ body {
 }
 
 .difficulty {
-    position: fixed;
-    top: 0;
-    right: 0;
     background: black;
     color: white;
     padding: 10px;
+    position: fixed;
+    top: 0; right: 0;
 }
-/* Modal */
 
+/* Modal */
 .hide-modal {
     height: 0%;
     opacity: 0;
@@ -193,15 +196,15 @@ body {
 }
 
 .show-modal {
-    opacity: 1;
     height:100%;
+    opacity: 1;
 }
 
 #modal {
     background: rgba( 0, 0, 0, 0.8 );
     position: fixed;
-    left: 0;
     top: 0;
+    left: 0;
     text-align:center;
     transition: all 0.7s ease;
     width:100%;
@@ -212,20 +215,20 @@ body {
     background: white;
     border-radius: 20px;
     border: 5px solid black;
-    /*left: 50%;*/
+    height: 400px;
+    margin-left: -300px;
+    margin-top: -200px;
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    /*margin-left: -300px;*/
-    /*margin-top: -400px;*/
+    top: 50%; left: 50%;
     transition: all 0.7s ease;
-    /*width: 600px;*/
+    width: 600px;
 }
 
 #modal-content h1 {
-    border-bottom: 5px solid black;
     background: #5aa8d5;
-    padding-top: 20px;
+    border-bottom: 5px solid black;
     padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 #modal-content .modal-stats {
@@ -234,112 +237,146 @@ body {
 }
 
 .emphasis {
-    font-weight: bold;
     font-size: 1.3em;
+    font-weight: bold;
 }
 
 .modal-buttons {
     margin-bottom: 20px;
 }
 .button {
-    display: inline-block;
-    padding: 1.05rem 2.75rem;
-    color: #28aadc;
     background-color: #fff;
-    font-size: 1.2rem;
-    font-weight: 300;
-    text-transform: uppercase;
     border-radius: 12rem;
     border: .2rem solid #28aadc;
+    color: #28aadc;
+    display: inline-block;
+    font-size: 1.2rem;
+    font-weight: 300;
     margin-bottom: 10px;
+    padding: 1.05rem 2.75rem;
+    text-transform: uppercase;
 }
 
-/* Above "mobile" */
-@media (min-width: 800px) {
-
-    /* Let's make the cards a little taller */
-    .card-wrapper {
-        margin-top: -185px;
+/* Medium Size, Deck beside piles (5 across) */
+@media (min-width: 480px) {
+    .App {
+        margin-top: 40px;
+    }
+    .pile {
+        width: 20%;
     }
 
-    .card-wrapper.stacked {
-        margin-top: -250px;
+    .upper-suit {
+        font-size: 6vw;
+        right: 1%;
+        top: 1%;
     }
 
-    .card {
-        height: 250px;
+    .card .big-val {
+        font-size: 15vw;
     }
 
+    .side-deck {
+        display: block;
+    }
+
+    .top-deck {
+        display: none;
+    }
+
+}
+
+/* Above "mobile", show the full card */
+@media (min-width: 960px) {
+
+    .card .num, .card .suit {
+        display: block;
+        text-align: center;
+    }
+
+    .card .lower-suit, .card .upper-suit {
+        display: block;
+        font-size: 2.8vw;
+    }
+
+    .card .upper-suit {
+        left: 2%;
+        right: auto;
+    }
+
+    .card .big-suit {
+        top: 50%;
+    }
     /* TWOS */
-    .card-2 .middle.upper { display: block; }
+    .card-2 .middle.upper,
     .card-2 .middle.lower { display: block; }
 
     /* THREES */
-    .card-3 .middle.upper { display: block; }
-    .card-3 .middle.center { display: block; }
+    .card-3 .middle.upper,
+    .card-3 .middle.center,
     .card-3 .middle.lower { display: block; }
 
     /* FOURS */
-    .card-4 .left.upper { display: block; }
-    .card-4 .left.lower { display: block; }
-    .card-4 .right.upper { display: block; }
+    .card-4 .left.upper,
+    .card-4 .left.lower,
+    .card-4 .right.upper,
     .card-4 .right.lower { display: block; }
 
     /* FIVES */
-    .card-5 .left.upper { display: block; }
-    .card-5 .left.lower { display: block; }
-    .card-5 .right.upper { display: block; }
-    .card-5 .right.lower { display: block; }
+    .card-5 .left.upper,
+    .card-5 .left.lower,
+    .card-5 .right.upper,
+    .card-5 .right.lower,
     .card-5 .middle.center { display: block; }
 
     /* SIXES */
-    .card-6 .left.upper { display: block; }
-    .card-6 .left.center { display: block; }
-    .card-6 .left.lower { display: block; }
-    .card-6 .right.upper { display: block; }
-    .card-6 .right.center { display: block; }
+    .card-6 .left.upper,
+    .card-6 .left.center,
+    .card-6 .left.lower,
+    .card-6 .right.upper,
+    .card-6 .right.center,
     .card-6 .right.lower { display: block; }
 
     /* SEVENS */
-    .card-7 .left.upper { display: block; }
-    .card-7 .left.center { display: block; }
-    .card-7 .left.lower { display: block; }
-    .card-7 .right.upper { display: block; }
-    .card-7 .right.center { display: block; }
-    .card-7 .right.lower { display: block; }
+    .card-7 .left.upper,
+    .card-7 .left.center,
+    .card-7 .left.lower,
+    .card-7 .right.upper,
+    .card-7 .right.center,
+    .card-7 .right.lower,
     .card-7 .middle.upper-center { display: block; }
 
     /* EIGHTS */
-    .card-8 .left.upper { display: block; }
-    .card-8 .left.upper-center { display: block; }
-    .card-8 .left.lower-center { display: block; }
-    .card-8 .left.lower { display: block; }
-    .card-8 .right.upper { display: block; }
-    .card-8 .right.upper-center { display: block; }
-    .card-8 .right.lower-center { display: block; }
+    .card-8 .left.upper,
+    .card-8 .left.upper-center,
+    .card-8 .left.lower-center,
+    .card-8 .left.lower,
+    .card-8 .right.upper,
+    .card-8 .right.upper-center,
+    .card-8 .right.lower-center,
     .card-8 .right.lower { display: block; }
 
     /* NINES */
-    .card-9 .left.upper { display: block; }
-    .card-9 .left.upper-center { display: block; }
-    .card-9 .left.lower-center { display: block; }
-    .card-9 .left.lower { display: block; }
-    .card-9 .right.upper { display: block; }
-    .card-9 .right.upper-center { display: block; }
-    .card-9 .right.lower-center { display: block; }
-    .card-9 .right.lower { display: block; }
+    .card-9 .left.upper,
+    .card-9 .left.upper-center,
+    .card-9 .left.lower-center,
+    .card-9 .left.lower,
+    .card-9 .right.upper,
+    .card-9 .right.upper-center,
+    .card-9 .right.lower-center,
+    .card-9 .right.lower,
     .card-9 .middle.center { display: block; }
 
     /* TENS */
-    .card-10 .left.upper { display: block; }
-    .card-10 .left.upper-center { display: block; }
-    .card-10 .left.lower-center { display: block; }
-    .card-10 .left.lower { display: block; }
-    .card-10 .right.upper { display: block; }
-    .card-10 .right.upper-center { display: block; }
-    .card-10 .right.lower-center { display: block; }
-    .card-10 .right.lower { display: block; }
-    .card-10 .middle.upper-center { display: block; }
+    .card-10 .left.upper,
+    .card-10 .left.upper-center,
+    .card-10 .left.lower-center,
+    .card-10 .left.lower,
+    .card-10 .right.upper,
+    .card-10 .right.upper-center,
+    .card-10 .right.lower-center,
+    .card-10 .right.lower,
+    .card-10 .middle.upper-center,
     .card-10 .middle.lower-center { display: block; }
 
     .card .big-val {
@@ -354,20 +391,51 @@ body {
     { display: block; }
 }
 
-@media (min-width: 1100px) {
-    .App {
-        margin-top: 40px;
+/* Plenty of vertical space, only stack in extreme cases */
+@media ( orientation: portrait ) {
+    /* reset regular stack */
+    .card-wrapper:nth-of-type(n+2):nth-last-of-type(n+4) {
+        margin-top: -105%;
     }
-    .pile {
-        width: 20%;
-    }
-
-    .side-deck {
-        display: block;
-    }
-
-    .top-deck {
-        display: none;
+    .card-wrapper:nth-of-type(n+2):nth-last-of-type(n+10) {
+        margin-top: -125%;
     }
 
 }
+
+/* Phones in landscape, do the best to fit, but really, nobody will play this way... */
+@media ( max-height: 420px ) and ( orientation: landscape ) {
+    /* reset regular stack */
+    .card-wrapper:nth-of-type(n+2):nth-last-of-type(n+3) {
+        margin-top: -135%;
+    }
+    .card-wrapper + .card-wrapper {
+        margin-top: -108%;
+    }
+}
+
+/* At this point, the cards will stay the same size, so ditch the relative sizes (vw) */
+@media ( min-width: 1200px ) {
+    .card .big-val {
+        font-size: 180px;
+    }
+    .suits div {
+        font-size: 47px;
+    }
+    .card .upper-suit, .card .lower-suit {
+        font-size: 34px;
+    }
+}
+
+/* Mess with the modal depending on the screen size. */
+@media ( max-width: 599px ) , ( max-height: 399px ) {
+    #modal-content {
+        height: auto;
+        margin-left: 0;
+        margin-top: 0;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        width: auto;
+    }
+}
+

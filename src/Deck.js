@@ -4,17 +4,20 @@ import React, {
 } from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
+import classnames from 'classnames';
 
 import { dealCards } from './actions/actions';
 
 class Deck extends Component {
 	render() {
-		let classNames = 'pile large-deck';
-		classNames += (this.props.side) ? ' side-deck' : ' top-deck'
+		const classes = classnames( 'pile', 'large-deck', {
+			'side-deck': this.props.side,
+			'top-deck': !this.props.side
+		});
 		return (
-			<div className={ classNames }>
+			<div className={ classes }>
 				{ (this.props.deck.size !== 0 ) ?
-					<div className="deck-wrapper">
+					<div className="card-wrapper">
 						<div onClick={ this.props.dealCards } className="card full-deck">
 							<div className="big-val">
 								{ this.props.deck.size }
@@ -22,11 +25,13 @@ class Deck extends Component {
 						</div>
 					</div>
 					:
-					<div style={{ opacity: 0.5 }} className="card empty-deck">
+				<div className="card-wrapper">
+					<div className="card empty-deck">
 						<div className="big-val">
 							0
 						</div>
 					</div>
+				</div>
 				}
 			</div>
 		);

@@ -23,7 +23,6 @@ class App extends Component {
 				<Deck deck={ this.props.deck } />
 				<Deck side deck={ this.props.deck } />
 				{ piles }
-				<Modal {...this.props } />
 				<div className="difficulty">
 					<p>
 						Difficulty: { difficulty }
@@ -32,6 +31,7 @@ class App extends Component {
 						Cards: { cardsRemaining }
 					</p>
 				</div>
+				<Modal {...this.props } />
 			</div>
 		);
 	}

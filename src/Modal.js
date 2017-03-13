@@ -13,7 +13,7 @@ class Modal extends Component {
 
 		const worseGames = dist.reduce( ( games, curr, i ) => {
 			return ( i > cardsRemaining ) ? games + curr : games;
-		}, 0 )
+		}, 0 );
 
 		const percentile = worseGames / games;
 		return Math.round( percentile * 100 );
@@ -46,7 +46,7 @@ class Modal extends Component {
 		const average = this.getAverage( currentDifficulty );
 		const bestScore = this.getBestScore( currentDifficulty );
 		const cardsRemaining = getTotalCards( this.props.piles );
-		const percentile = this.getPercentile( cardsRemaining || 10, currentDifficulty );
+		const percentile = this.getPercentile( cardsRemaining, currentDifficulty );
 
 		const wins = this.props.stats.get( currentDifficulty ).get( 'wins' );
 		const times = wins === 1 ? 'time' : 'times';
@@ -60,9 +60,13 @@ class Modal extends Component {
 							<h1> { cardsRemaining === 4 ? 'Congratulations! You Win!' : 'Game Over!' } </h1>
 							<h2 style={{ marginTop: '20px' }}> { cardsRemaining } cards remaining.</h2>
 							<div className="modal-stats">
-								<p>
-									That's better than  <span className="emphasis">{ percentile }% </span> of your games!
-								</p>
+								{ this.props.stats.get( currentDifficulty ).get( 'games' ) > 10 ?
+									<p>
+										That's better than  <span className="emphasis">{ percentile }% </span> of your games!
+									</p>
+									:
+									null
+								}
 								<p>
 									You've played&nbsp;
 									<span className="emphasis">
