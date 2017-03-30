@@ -6,7 +6,7 @@ import Pile from './Pile';
 import Deck from './Deck';
 import Modal from './Modal';
 
-import { startNewGame } from './actions/actions';
+import { startNewGame, hideModal, showModal } from './actions/actions';
 import { isGameOver, isWinning, getTotalCards } from './utils/utils';
 
 import './App.css';
@@ -26,6 +26,12 @@ class App extends Component {
 				{ piles }
 				<div className="difficulty">
 					<p>
+						<span onClick={ this.props.showModal.bind( null, 'learn' ) } style={{ display: 'inline-block', marginRight: '0.5em', verticalAlign: 'top', marginTop: '1px' }}>
+							<a className="question"></a>
+						</span>
+						<span style={{ display: 'inline-block', marginRight: '1em' }}>
+							<a onClick={ this.props.showModal.bind( null, 'stats' ) } className="btn"><span className="icon icon-gear"></span></a>
+						</span>
 						Difficulty: { difficulty }
 						&nbsp;
 						&nbsp;
@@ -49,11 +55,12 @@ const mapStateToProps = ( state ) => {
 	const piles = state.get('piles');
 	const stats = state.get('stats');
 	const easy = state.get('easy');
+	const modal = state.get('modal');
 	const gameOver = isGameOver( deck, piles, easy );
 	const winning = isWinning( deck, piles );
-	return { deck, piles, stats, gameOver, winning, easy };
+	return { deck, piles, stats, gameOver, winning, easy, modal };
 };
 
-const app = connect( mapStateToProps, { startNewGame } )( App );
+const app = connect( mapStateToProps, { startNewGame, hideModal, showModal } )( App );
 
 export default app;

@@ -17,3 +17,16 @@ export function startNewGame( difficulty) {
 		difficulty
 	};
 }
+
+export function showModal( modalType ) {
+	return {
+		type: 'SHOW_MODAL',
+		modalType
+	};
+}
+
+export function hideModal() {
+	return {
+		type: 'HIDE_MODAL'
+	};
+}

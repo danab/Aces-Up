@@ -38,7 +38,7 @@ const newPerm = ( perm ) => {
 	}
 };
 
-const foolsDeck = () => {
+export const foolsDeck = () => {
 	// Don't include aces, they'll be last!
 	let suits = [
 		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
@@ -71,15 +71,8 @@ const foolsDeck = () => {
 
 
 export const shuffledDeck = () => {
-	const now = new Date();
-
-	if ( now.getMonth() === 3 && now.getDate() === 1 ) {
-		const deck = foolsDeck();
-		return fromJS( deck );
-	} else {
-		const deck = shuffle( 52 );
-		return fromJS( deck );
-	}
+	const deck = shuffle( 52 );
+	return fromJS( deck );
 };
 
 export const getSuit = ( card ) => Math.floor( card / 13 );
@@ -127,14 +120,21 @@ export const isWinning = ( deck, piles ) => {
 };
 
 export const getDefaultState = () => {
-	const deck = shuffledDeck();
 
-	const piles = List.of( fromJS([]), fromJS([]), fromJS([]), fromJS([]) );
+	// Winner winner
+	const deck = fromJS( [] );
+	const piles = List.of( fromJS([ 12 ]), fromJS([ 25 ]), fromJS([ 38]), fromJS([ 51 ]) );
 
 	return Map({
 		deck,
 		piles,
 		easy: false,
+		modal: 'learn',
+		// First time visitor
+		intro: true,
+		// April Fools
+		hasBeenAprilFoolsed: false,
+		isBeingAprilFoolsed: false,
 		stats: fromJS({
 			easy: {
 				games: 0,

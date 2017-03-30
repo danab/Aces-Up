@@ -1,6 +1,6 @@
 import { fromJS, List } from 'immutable';
 
-import { getSuit, getVal, shuffledDeck, isGameOver, isWinning, getTotalCards } from '../utils/utils';
+import { getSuit, getVal, shuffledDeck, foolsDeck, isGameOver, isWinning, getTotalCards } from '../utils/utils';
 
 const getTopCards = ( piles, chosenPile = 0, easy = false ) => {
 	return piles.map( ( pile, idx ) => {
@@ -77,8 +77,11 @@ const updateStats = ( stats, piles ) => {
 const getNewState = ( state, newDeck, newPiles ) => {
 	const easy = state.get( 'easy' );
 	const difficultyProp = easy ? 'easy' : 'hard';
+	const aprilFoolsed = state.get( 'isBeingAprilFoolsed' );
 
 	const gameOver = isGameOver( newDeck, newPiles, easy );
+
+	const gameOverAndCounts = gameOver && !aprilFoolsed;
 
 	const stats = state.get( 'stats' );
 
@@ -89,15 +92,20 @@ const getNewState = ( state, newDeck, newPiles ) => {
 	const newStats = stats.set(
 		difficultyProp,
 		stats.get( difficultyProp )
-			.set( 'games', gameOver ? games + 1 : games )
+			.set( 'games', gameOverAndCounts ? games + 1 : games )
 			.set( 'wins', isWinning( newDeck, newPiles ) ? wins + 1 : wins )
-			.set( 'dist', gameOver ? updateStats( dist, newPiles ) : dist )
+			.set( 'dist', gameOverAndCounts ? updateStats( dist, newPiles ) : dist )
 	);
+
+	const modal = ( gameOver && aprilFoolsed ) ? 'gameoverFool' : ( gameOver ) ? 'gameover' : false;
 
 	return state
 		.set( 'deck', newDeck )
 		.set( 'piles', newPiles )
-		.set( 'stats', newStats );
+		.set( 'stats', newStats )
+		.set( 'hasBeenAprilFoolsed', ( gameOver && aprilFoolsed ) ? true : state.get( 'hasBeenAprilFoolsed' ) )
+		.set( 'isBeingAprilFoolsed', ( gameOver && aprilFoolsed ) ? false : state.get( 'isBeingAprilFoolsed' ) )
+		.set( 'modal', modal );
 };
 
 // will have to consider how to divide reducers
@@ -155,11 +163,22 @@ const reducer = ( state, action ) => {
 		}
 	}
 	case 'START_NEW_GAME':
-		return state
-				.set( 'deck', shuffledDeck() )
-				.set( 'piles', piles.map( () => fromJS([]) ))
-				.set( 'easy', action.difficulty === 'easy' );
+		const now = new Date();
+		const isAprilFoolsDay = ( now.getMonth() === 3 && now.getDate() === 1 );
+		const isTimeForFooling = ( isAprilFoolsDay && !state.get( 'hasBeenAprilFoolsed' ));
 
+		return state
+				.set( 'deck', isTimeForFooling ? foolsDeck() : shuffledDeck() )
+				.set( 'piles', piles.map( () => fromJS([]) ))
+				.set( 'isBeingAprilFoolsed', isTimeForFooling ? true : false )
+				.set( 'easy', action.difficulty === 'easy' )
+				.set( 'modal', false )
+				.set( 'intro', false );
+
+	case 'SHOW_MODAL':
+		return state.set( 'modal', action.modalType );
+	case 'HIDE_MODAL':
+		return state.set( 'modal', false );
 	default:
 		return state;
 	}
