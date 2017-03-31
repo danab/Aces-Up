@@ -1,15 +1,16 @@
 import { fromJS, List, Map } from 'immutable';
 
-export const shuffledDeck = () => {
+const shuffle = ( size ) => {
+
 	let deck = [];
-	for( var i = 0; i < 52; i++ ) {
+	for( var i = 0; i < size; i++ ) {
 		deck.push( i );
 	}
 
 	// fischer-yates...clever (the second algorithm would have been fine performance-wise...but why not
 	// https://bost.ocks.org/mike/shuffle/
 
-	var m = 52, t, j;
+	var m = size, t, j;
 
 	// While there remain elements to shuffle…
 	while (m) {
@@ -23,8 +24,56 @@ export const shuffledDeck = () => {
 		deck[j] = t;
 	}
 
+	return deck;
+};
+
+const newPerm = ( perm ) => {
+	const potentialPerm = shuffle( 4 );
+
+	// needlessly terse, but just check if any elements match up
+	if ( perm.reduce( ( sum, curr, i ) => sum += ( curr === potentialPerm[i] ) ? 1 : 0, 0 ) ) {
+		return newPerm( perm );
+	} else {
+		return potentialPerm;
+	}
+};
+
+export const foolsDeck = () => {
+	// Don't include aces, they'll be last!
+	let suits = [
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+		[ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ]
+	];
+
+	let perm = [ 0, 1, 2, 3 ];
+
+	// empty
+	let deck = [];
+
+	while( suits[0].length ) {
+		const len = suits[0].length;
+		perm.forEach( idx => {
+			let card = suits[ idx ].splice( Math.floor( Math.random() * len ), 1 )[0];
+			deck.push( card + idx * 13 );
+		});
+		perm = newPerm( perm );
+	}
+
+	// add the aces
+	perm.forEach( idx => {
+		deck.push( 12 + idx * 13 );
+	});
+
 	return fromJS( deck );
-}
+};
+
+
+export const shuffledDeck = () => {
+	const deck = shuffle( 52 );
+	return fromJS( deck );
+};
 
 export const getSuit = ( card ) => Math.floor( card / 13 );
 export const getVal = ( card ) => card % 13;
@@ -42,11 +91,10 @@ export const getTotalCards = ( piles ) => {
 };
 
 const noEmptyPiles = ( piles ) => {
-	return piles.every( pile => pile.size )
-}
+	return piles.every( pile => pile.size );
+};
 
 const noEasyCardsToRemove = ( piles ) => {
-	console.log( 'no easy') ;
 	let noEasy = true;
 
 	piles.forEach( ( pile ) => {
@@ -61,7 +109,7 @@ const noEasyCardsToRemove = ( piles ) => {
 	});
 
 	return noEasy;
-}
+};
 
 export const isGameOver = ( deck, piles, easy ) => {
 	return deck.size === 0 && noEmptyPiles( piles ) && noSameSuits( piles ) && ( !easy || noEasyCardsToRemove( piles ) );
@@ -72,14 +120,21 @@ export const isWinning = ( deck, piles ) => {
 };
 
 export const getDefaultState = () => {
-	const deck = shuffledDeck();
 
-	const piles = List.of( fromJS([]), fromJS([]), fromJS([]), fromJS([]) );
+	// Winner winner
+	const deck = fromJS( [] );
+	const piles = List.of( fromJS([ 12 ]), fromJS([ 25 ]), fromJS([ 38]), fromJS([ 51 ]) );
 
 	return Map({
 		deck,
 		piles,
 		easy: false,
+		modal: 'learn',
+		// First time visitor
+		intro: true,
+		// April Fools
+		hasBeenAprilFoolsed: false,
+		isBeingAprilFoolsed: false,
 		stats: fromJS({
 			easy: {
 				games: 0,
