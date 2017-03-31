@@ -1,8 +1,9 @@
+/* eslint-env node */
 var path = require('path');
 var express = require('express');
 var app = express();
 
-app.use('/t', express.static('./build'))
+app.use('/t', express.static('./build'));
 
 app.get('/', function( req, res ) {
 	res.redirect('/t');
