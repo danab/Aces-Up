@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as T } from 'react';
+import { List, Map } from 'immutable';
 
 import { getTotalCards } from './utils/utils';
 
@@ -104,7 +105,11 @@ const EndGame = ( { stats, easy, piles, deck, startNewGame } ) => {
 };
 
 EndGame.propTypes = {
-
+	deck: T.instanceOf( List ).isRequired,
+	easy: T.bool.isRequired,
+	piles: T.instanceOf( List ).isRequired,
+	startNewGame: T.func.isRequired,
+	stats: T.instanceOf( Map ).isRequired
 };
 
 export default EndGame;

@@ -34,6 +34,7 @@ Modal.propTypes = {
 	easy: T.bool.isRequired,
 	gameOver: T.bool.isRequired,
 	piles: T.instanceOf( List ).isRequired,
+	modal: T.oneOfType( [ T.string, T.bool ] ).isRequired,
 	startNewGame: T.func.isRequired,
 	stats: T.instanceOf( Map ).isRequired
 };

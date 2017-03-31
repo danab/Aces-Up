@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import { dealCards } from './actions/actions';
 
 class Deck extends Component {
+
 	render() {
 		const classes = classnames( 'pile', 'large-deck', {
 			'side-deck': this.props.side,

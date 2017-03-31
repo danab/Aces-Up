@@ -1,6 +1,6 @@
 import React, {
 	Component,
-	PropTypes,
+	PropTypes as T,
 } from 'react';
 
 const Page0 = () => {
@@ -12,7 +12,7 @@ const Page0 = () => {
 				To begin the game, click the deck to deal a card to each of the four piles.
 				The goal will to be to remove all the cards until only the four aces remain (one in each pile).
 				<div style={{ marginTop: '20px', textAlign: 'center' }} >
-					<img width="400" src="/img/thepiles.png" />
+					<img alt="Example of what piles look like" width="400" src="/img/thepiles.png" />
 				</div>
 			</div>
 		</div>
@@ -28,7 +28,7 @@ const Page1 = () => {
 				For example, the 7 of clubs may be removed below, because it is lower than the jack of clubs.
 				What other card can be removed?
 				<div style={{ marginTop: '20px', textAlign: 'center' }} >
-					<img width="400" src="/img/thepiles.png" />
+					<img alt="Example of what piles look like" width="400" src="/img/thepiles.png" />
 				</div>
 			</div>
 		</div>
@@ -44,7 +44,7 @@ const Page2 = () => {
 				If you remove all cards from one pile you may move any card from the top of another pile to that pile.
 				You may also chose to deal one card from the deck into that pile.
 				<div style={{ marginTop: '20px', textAlign: 'center' }} >
-					<img width="300" src="/img/emptypile.png" />
+					<img alt="Example of what an empty pile looks like" width="300" src="/img/emptypile.png" />
 				</div>
 			</div>
 		</div>
@@ -60,7 +60,7 @@ const Page3 = () => {
 				The only difference is that on "easy" you can remove a card if it is directly on top of a higher card of the same suit.
 				In this example, you could remove the 6 of clubs only if you were playing the easy level.
 				<div style={{ marginTop: '20px', textAlign: 'center' }} >
-					<img width="300" src="/img/easyexample.png" />
+					<img alt="Example of a situation where a card can be removed only if it's on easy difficulty" width="300" src="/img/easyexample.png" />
 				</div>
 			</div>
 		</div>
@@ -71,8 +71,11 @@ const Page4 = ( { gameOver, startNewGame, hideModal } ) => {
 	return (
 		<div className="modal-stats">
 			<h2 style={{ fontSize: '1.3em' }}> Go and Play! </h2>
+			<div style={{ marginTop: '20px', textAlign: 'center' }} >
+				<img alt="Winning Example" width="300" src="/img/youwin.png" />
+			</div>
 			<div style={{ textAlign: 'left', marginTop: '10px' }}>
-				Remember, the goal is to have the four aces up!
+				Remember, the goal is to end with aces up!
 			</div>
 			<div style={{ marginTop: '20px'}}>
 				{ gameOver ?
@@ -89,6 +92,12 @@ const Page4 = ( { gameOver, startNewGame, hideModal } ) => {
 			</div>
 		</div>
 	);
+};
+
+Page4.propTypes = {
+	gameOver: T.bool.isRequired,
+	hideModal: T.func.isRequired,
+	startNewGame: T.func.isRequired
 };
 
 class LearnModal extends Component {
@@ -137,7 +146,10 @@ class LearnModal extends Component {
 	}
 }
 
-LearnModal.propTypes = {};
-LearnModal.defaultProps = {};
+LearnModal.propTypes = {
+	gameOver: T.bool.isRequired,
+	hideModal: T.func.isRequired,
+	startNewGame: T.func.isRequired
+};
 
 export default LearnModal;

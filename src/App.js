@@ -47,7 +47,8 @@ class App extends Component {
 App.propTypes = {
 	deck: T.instanceOf( List ).isRequired,
 	easy: T.bool.isRequired,
-	piles: T.instanceOf( List ).isRequired
+	piles: T.instanceOf( List ).isRequired,
+	showModal: T.func.isRequired
 };
 
 const mapStateToProps = ( state ) => {

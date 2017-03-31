@@ -162,19 +162,19 @@ const reducer = ( state, action ) => {
 			return getNewState(state, newDeck, newPiles);
 		}
 	}
-	case 'START_NEW_GAME':
+	case 'START_NEW_GAME': {
 		const now = new Date();
 		const isAprilFoolsDay = ( now.getMonth() === 3 && now.getDate() === 1 );
-		const isTimeForFooling = ( isAprilFoolsDay && !state.get( 'hasBeenAprilFoolsed' ));
+		const isTimeForFooling = ( isAprilFoolsDay && !state.get('hasBeenAprilFoolsed'));
 
 		return state
-				.set( 'deck', isTimeForFooling ? foolsDeck() : shuffledDeck() )
-				.set( 'piles', piles.map( () => fromJS([]) ))
-				.set( 'isBeingAprilFoolsed', isTimeForFooling ? true : false )
-				.set( 'easy', action.difficulty === 'easy' )
-				.set( 'modal', false )
-				.set( 'intro', false );
-
+			.set('deck', isTimeForFooling ? foolsDeck() : shuffledDeck())
+			.set('piles', piles.map(() => fromJS([])))
+			.set('isBeingAprilFoolsed', isTimeForFooling ? true : false)
+			.set('easy', action.difficulty === 'easy')
+			.set('modal', false)
+			.set('intro', false);
+	}
 	case 'SHOW_MODAL':
 		return state.set( 'modal', action.modalType );
 	case 'HIDE_MODAL':

@@ -1,6 +1,6 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as T } from 'react';
 
-const EndGame = ( { startNewGame} ) => {
+const FoolsModal = ( { startNewGame} ) => {
 
 	return (
 		<div>
@@ -23,9 +23,9 @@ const EndGame = ( { startNewGame} ) => {
 	);
 };
 
-EndGame.propTypes = {
-
+FoolsModal.propTypes = {
+	startNewGame: T.func.isRequired
 };
 
-export default EndGame;
+export default FoolsModal;
 

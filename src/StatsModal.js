@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes as T } from 'react';
+import { Map } from 'immutable';
 
 // TODO: These are duplicated, add to utils file
 const getAverage = ( stats, difficulty ) => {
@@ -25,7 +26,7 @@ const getBestScore = ( stats, difficulty ) => {
 
 const FormatStats = ( { games, average, wins, best, times, title } ) => {
 	const style = { width: '50%', marginBottom: '20px', float: 'left' };
-	if ( games === 0 ) { return ( <div style={ style }> <h2 style={{ marginTop: '20px' }}> No { title.toLowerCase() } games played. </h2></div> );}
+	if ( games === 0 ) { return ( <div style={ style }> <h2 style={{ marginTop: '90px', marginLeft: '20px' }}> No { title.toLowerCase() } games played. </h2></div> );}
 	return (
 		<div style={{ width: '50%', float: 'left', marginBottom: '20px' }}>
 			<h2 style={{ marginTop: '20px' }}> { title } </h2>
@@ -37,10 +38,10 @@ const FormatStats = ( { games, average, wins, best, times, title } ) => {
 					{ wins ?
 						(
 							<span>
-												Games Won:&nbsp;
+								Games Won:&nbsp;
 								<span className="emphasis">
-													{ wins }
-												</span>
+									{ wins }
+								</span>
 								&nbsp;{ times }!
 								{ Math.round( wins/games * 1000 ) / 100 + '%'}
 								</span>
@@ -48,11 +49,11 @@ const FormatStats = ( { games, average, wins, best, times, title } ) => {
 						:
 						(
 							<span>
-									Best Score:&nbsp;
+								Best Score:&nbsp;
 								<span className="emphasis">
-													{ best }
-												</span> cards remaining.
-											</span>
+									{ best }
+								</span> cards remaining.
+							</span>
 						)
 					}
 				</p>
@@ -67,6 +68,15 @@ const FormatStats = ( { games, average, wins, best, times, title } ) => {
 		</div>
 
 	);
+};
+
+FormatStats.propTypes = {
+	average: T.number.isRequired,
+	best: T.number.isRequired,
+	games: T.number.isRequired,
+	times: T.string.isRequired,
+	title: T.string.isRequired,
+	wins: T.number.isRequired
 };
 
 const StatsModal = ( { stats, hideModal } ) => {
@@ -117,7 +127,8 @@ const StatsModal = ( { stats, hideModal } ) => {
 };
 
 StatsModal.propTypes = {
-
+	hideModal: T.func.isRequired,
+	stats: T.instanceOf( Map ).isRequired
 };
 
 export default StatsModal;
